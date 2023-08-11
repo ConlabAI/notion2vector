@@ -22,9 +22,9 @@ This project is currently under development and not suitable for production use.
 
 1. Clone this repository.
 2. Install dependencies:
-   \```bash
+   ```bash
    pip install -r requirements.txt
-   \```
+   ```
 
 ## Usage
 
@@ -44,9 +44,9 @@ The application uses environment variables for configuration. You'll find a temp
 
 Copy the `.env.example` file to a new file named `.env`:
 
-\```bash
+```bash
 cp .env.example .env
-\```
+```
 
 ### Step 2: Edit the Variables
 
@@ -57,24 +57,24 @@ Open the `.env` file in a text editor and update the values to match your config
 
 After setting these variables, run the script with:
 
-\```bash
+```bash
 python notion2vector/main.py
-\```
+```
 
 ## Running with Docker
 
 You can build the Docker image and run the container using the following commands:
 
-\```bash
+```bash
 docker build -t notion2vector .
 docker run -p 4000:80 --env-file .env notion2vector 
-\```
+```
 
 Once the application is running, it will automatically load the Notion database into the vector database. You can re-trigger the ingestion process by sending a POST request to the `/ingest` endpoint:
 
-\```bash
+```bash
 curl -X POST http://localhost:4000/ingest
-\```
+```
 
 ## Using with Other Applications
 
@@ -86,25 +86,25 @@ Here's how to set it up:
 
 Create a volume using Docker:
 
-\```bash
+```bash
 docker volume create --name=chroma_db_volume
-\```
+```
 
 ### Step 2: Run the Container with Volume Mounted
 
 When running the container, you need to mount the volume to the `chroma_db` directory inside the container:
 
-\```bash
+```bash
 docker run -p 4000:80 --env-file .env -v chroma_db_volume:/app/chroma_db notion2vector
-\```
+```
 
 ### Step 3: Mount the Volume with Other Containers
 
 You can now mount this volume in other containers that need to query the Chroma DB. Simply use the same volume name and mount it to the appropriate path within the other container:
 
-\```bash
+```bash
 docker run -v chroma_db_volume:/path/in/other/container other-image-name
-\```
+```
 
 Replace `/path/in/other/container` with the appropriate path inside the other container where you want the Chroma DB data to be accessible.
 
