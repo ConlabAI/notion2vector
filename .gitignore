@@ -1,0 +1,6 @@
+.env
+.venv
+venv
+
+/notion_pages
+/chroma_db
