@@ -6,7 +6,7 @@ This project's goal is to automatically load data from a Notion database into a 
 
 ### :warning: Caution :warning:
 
-This project is currently under development and not suitable for production use. Please note that the vector database resets after each restart.
+This project is currently under development and not suitable for production use. Please note that the vector database resets after each restart and embedings recreated.
 
 ## Features
 

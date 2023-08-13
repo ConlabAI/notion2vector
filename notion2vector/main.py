@@ -94,21 +94,24 @@ def process_documents_and_save_to_db():
 
     embeddings = OpenAIEmbeddings()
 
-     # Removing all files from the persist_directory
-    try:
-        if os.path.exists(persist_directory):
-            shutil.rmtree(persist_directory)
-            os.makedirs(persist_directory)
-            logging.info(f"All files removed from {persist_directory}")
-        else:
-            logging.warning(f"Directory {persist_directory} not found, creating it.")
-            os.makedirs(persist_directory)
-    except Exception as e:
-        logging.error(f"Failed to remove files from {persist_directory}: {e}")
-        exit(1)
+    vectorstore = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
 
     try:
-        vectorstore = Chroma.from_documents(splits, embeddings, persist_directory=persist_directory)
+        # Fetch all document IDs from the collection
+        all_documents = vectorstore.get()
+        if 'ids' in all_documents and all_documents['ids']:
+                all_ids = all_documents['ids']
+                vectorstore.delete(ids=all_ids)
+                logging.info(f"All documents deleted from vector store")
+        else:
+            logging.info(f"Vector store is empty")
+            return
+    except Exception as e:
+            logging.error(f"Failed to delete all documents from collection: {e}")
+            exit(1)
+
+    try:      
+        vectorstore.add_documents(splits)
         logging.info(f"All documents added to vector store")
     except Exception as e:
         logging.error(f"Failed to create vector store from documents: {e}")
