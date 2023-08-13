@@ -105,7 +105,6 @@ def process_documents_and_save_to_db():
                 logging.info(f"All documents deleted from vector store")
         else:
             logging.info(f"Vector store is empty")
-            return
     except Exception as e:
             logging.error(f"Failed to delete all documents from collection: {e}")
             exit(1)
