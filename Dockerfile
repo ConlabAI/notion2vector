@@ -14,7 +14,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Create the notion_pages and chroma_db directories inside the container
-RUN mkdir -p /app/notion_pages /app/chroma_db
+RUN mkdir -p /app/notion_pages /app/faiss
 
 # Copy the notion2vector directory into the container
 COPY notion2vector/ .

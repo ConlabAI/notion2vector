@@ -10,7 +10,8 @@ from notion2md.exporter.block import MarkdownExporter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.document_loaders import NotionDirectoryLoader
 from langchain.text_splitter import MarkdownHeaderTextSplitter
-from langchain.vectorstores import Chroma
+from langchain.vectorstores import FAISS
+
 
 def load_env_variables():
 
@@ -71,7 +72,7 @@ def export_pages_to_markdown(page_ids):
 
 def process_documents_and_save_to_db():
     loader = NotionDirectoryLoader("notion_pages")
-    persist_directory = 'chroma_db'
+    persist_directory = 'faiss'
 
     docs = loader.load()
 
@@ -94,7 +95,7 @@ def process_documents_and_save_to_db():
 
     embeddings = OpenAIEmbeddings()
 
-    vectorstore = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
+    vectorstore = FAISS(persist_directory=persist_directory, embedding_function=embeddings)
 
     try:
         # Fetch all document IDs from the collection

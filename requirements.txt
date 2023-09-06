@@ -14,6 +14,7 @@ coloredlogs==15.0.1
 crashtest==0.4.1
 dataclasses-json==0.5.14
 fastapi==0.99.1
+faiss-cpu==1.7.4
 flatbuffers==23.5.26
 frozenlist==1.4.0
 greenlet==2.0.2
