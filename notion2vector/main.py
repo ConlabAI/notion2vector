@@ -95,27 +95,13 @@ def process_documents_and_save_to_db():
 
     embeddings = OpenAIEmbeddings()
 
-    vectorstore = FAISS(persist_directory=persist_directory, embedding_function=embeddings)
-
-    try:
-        # Fetch all document IDs from the collection
-        all_documents = vectorstore.get()
-        if 'ids' in all_documents and all_documents['ids']:
-                all_ids = all_documents['ids']
-                vectorstore.delete(ids=all_ids)
-                logging.info(f"All documents deleted from vector store")
-        else:
-            logging.info(f"Vector store is empty")
-    except Exception as e:
-            logging.error(f"Failed to delete all documents from collection: {e}")
-            exit(1)
-
-    try:      
-        vectorstore.add_documents(splits)
-        logging.info(f"All documents added to vector store")
+    try:     
+        vectorstore = FAISS.from_documents(splits, embeddings)
     except Exception as e:
         logging.error(f"Failed to create vector store from documents: {e}")
         exit(1)
+    
+    vectorstore.save_local(persist_directory)
 
 def ingest_data():
     notion_token, notion_database_id, log_level, openai_api_key, notion_database_query_filter = load_env_variables()
